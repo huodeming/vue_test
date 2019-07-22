@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<!-- 用template标签,定义一个组件 -->
+		<template id="tmp">
+			<div>
+				<h3>这是通过template元素,在外部定义的组件结构</h3>
+			</div>
+		</template>
+		<div id="app">
+			<my-com01></my-com01>
+		</div>
+		
+	</body>
+	<script type="text/javascript">
+		//省略掉extend,直接在component中传对象就行.问题是没任何提示.一个组件只能是一个根元素,如<h3></h3><a></a>就会报错
+		Vue.component('myCom01',{
+			template:'#tmp',
+		});
+		
+		
+		var vm = new Vue({
+			el:'#app',
+			data:{},
+			methods:{}
+		});
+	</script>
+</html>

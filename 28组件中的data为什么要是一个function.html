@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<template id="com">
+			<div>
+				<h2>这是一个外部定义的私有组件!</h2>
+			</div>
+		</template>
+		
+		<div id="app">
+			<mycom></mycom>
+			<mycom></mycom>
+			<mycom></mycom>
+		</div>
+		
+	</body>
+	<script type="text/javascript">
+		var count = {count : 0};
+		var vm = new Vue({
+			el:'#app',
+			data:{},//属性
+			methods:{},//方法集合
+			filters:{},//过滤器
+			directives:{},//指令
+			components:{
+				mycom : {
+					template:'<div><h3><button @click="add">值+1</button></h3><h3>{{ count }}</h3></div>',
+					//组件中的data必须是个函数,且函数必须返回一个对象.在组件定义定时模板中使用.
+					data:function(){
+						//1.如果是这样子,那么每个组件中的count是独立的,引用组件三次,三个count的的值也是不同的.
+						/* return {
+							count:0,
+						}; */
+						//2.我们可以返回一个全局的变量,也是一个对象.再来看多次引用时值的变化,多次引用值会同时变化.
+						return window.count;
+					},
+					methods:{
+						add(){
+							this.count++;
+						}
+					}
+				}
+			},
+			//钩子函数===================
+			beforeCreate(){},
+			created(){},
+			beforeMount(){},
+			mounted(){},
+			beforeUpdate(){},
+			updated(){},
+			beforeDestroy(){},
+			destroyed(){},
+		});
+	</script>
+</html>

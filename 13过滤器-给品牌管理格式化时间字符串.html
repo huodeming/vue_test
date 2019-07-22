@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/moment.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	</head>
+	<body>
+	<div id="app">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">添加品牌</h3>
+			</div>
+			<div class="panel-body form-inline">
+				<label>ID:<input class="form-control" type="text" v-model="id" /></label>
+				<label>品牌:<input class="form-control" type="text" v-model="name" /></label>
+				<label><input class="btn btn-primary" type="button" value="添加" v-on:click="add" /></label>
+				<label>搜索:<input class="form-control" type="text" v-model="keyWord" /></label>
+			</div>
+			
+		</div>
+		
+		<table class="table table-bordered table-hover table-striped" border="" cellspacing="" cellpadding="">
+			<tr>
+				<th>ID</th>
+				<th>品牌</th>
+				<th>创建时间</th>
+				<th>操作</th>
+			</tr>
+			<!--<tr>
+				<td>1</td>
+				<td>小米</td>
+				<td>2019-01-01 12:23:00</td>
+				<td><input type="button" value="删除" /></td>
+			</tr>-->
+			<!-- 用v-for去遍历整个数组 -->
+			<!-- <tr v-for="item in list" :key="item.id"> -->
+			<!-- 用一个方法，遍历过滤后的数组 -->
+			<tr v-for="item in search(keyWord)" :key="item.id">
+				<td>{{ item.id }}</td>
+				<td>{{ item.name }}</td>
+				<td>{{ item.ctime | dateFormat('YYYY-MM-DD hh:mm:ss') }}</td>
+				<td><input class="btn btn-primary" type="button" value="删除" v-on:click="del(item.id)" /></td>
+			</tr>
+			
+		</table>
+		
+	</div>
+	
+	</body>
+	<script type="text/javascript">
+		//定义过滤器
+		Vue.filter('dateFormat',function(date, format){
+			//js自己格式化日期时间太弱,我们借助于moment插件.
+			return moment(date).format(format);
+		});
+		
+		var vm = new Vue({
+			el:'#app',
+			data: {
+				id: '',
+				name: '',
+				keyWord: '',
+				list: [
+					{'id':1,'name':'联想','ctime':new Date()},
+					{'id':2,'name':'小米','ctime':new Date()},
+					{'id':3,'name':'华为','ctime':new Date()},
+					{'id':4,'name':'魅族','ctime':new Date()},
+				],
+			},
+			methods:{
+				add(){
+					this.list.push({'id':this.id,'name':this.name,'ctime':new Date()});
+					this.id = this.list.length+1;
+					this.name = '';
+				},
+				del(id){
+					//用数组的some方法,return true时,遍历中止
+					 this.list.some((item, i)=>{
+						 console.log(i);
+						if(id == item.id){
+							this.list.splice(i,1);//删除指定一个元素
+							return true;
+						}
+					}) 
+				},
+				search(keyWord){
+					//es6的新功能========includes()方法.
+					return this.list.filter(item => {
+						if(item.name.includes(keyWord)){
+							return item;
+						}
+					})
+				}
+			},
+			//私有过滤器,2个条件,名称,函数.
+			//过滤器调用的时候,如果私有与全局名称一致,就近原则,先调用私有的.
+			filters:{
+				dateFormat : function (date,format){
+					return moment(date).format(format);
+				}
+			}
+		});
+
+	</script>
+</html>

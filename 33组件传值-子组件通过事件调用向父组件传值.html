@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件传值-父组件向子组件传值和data与props的区别</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <!-- 两个组件嵌套使用不了,我们可以把#app当成是一个父组件来使用 -->
+        <!-- 在调用子组件时,我们可以通过绑定一个属性给子组件,在子组件中通过props['属性名']来引入后才可以使用 -->
+        <!-- <com01 v-bind:appmsg="msg"></com01> -->
+
+        <!-- 父组件也可以通过事件向子组件传递方法 -->
+        <com01 v-bind:appmsg="msg" v-on:func="show"></com01>
+        
+    </div>
+    
+</body>
+<script>
+var vm = new Vue({
+    el : '#app',
+    data : {
+        msg : '这是#app-中的属性!',
+        userInfo : null,//用来接收子组件传过来的值
+    },
+    methods: {
+        // show(){
+        //     console.log('执行了#app中的show方法!')
+        // }
+
+        //利用方法的参数,让子组件传值过来,然后把值赋给自己的属性,实现了子组件向父组件传值.
+        show(data){
+            console.log('执行了#app中的show方法!')
+            this.userInfo = data;//
+            console.log(this.userInfo);
+        }
+    },
+    components: {
+        com01 : {
+            // 注意:props中的数据,都是父组件传递给子组件的.父组件传递过来的参数,也必须在props中申明才能使用,建议不要在子组件中修改(给子组件定义方法修改,能成功但报错),所以不建议这么做.
+            props: ['appmsg'],
+            template: '<h2>这是com01组件--{{ appmsg }}<button @click="myclick">点我有事件</button></h2>',
+            data:function(){
+                return {
+                    userInfo:{id:1,name:'huodeming'},
+                }
+            },
+            methods:{
+                myclick(){
+                    console.log('点击到了!');
+                    //子组件如果要调用父组件传过来的方法,必须使用this.$emit()来触发.第一个参数是事件名,从第二个参数开始是传参.
+                    //this.$emit('func');//this.$emit('func','aaa',12);
+                    //子组件向父组件传传,就是通过它进行的
+                    this.$emit('func',this.userInfo);
+                }
+            }
+        },
+        com02 : {
+            template: '<h4>这是com02组件</h4>'
+        }
+    }
+    
+})
+
+</script>
+</html>

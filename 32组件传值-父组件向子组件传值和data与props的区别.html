@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件传值-父组件向子组件传值和data与props的区别</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <!-- 两个组件嵌套使用不了,我们可以把#app当成是一个父组件来使用 -->
+        <!-- <com01><com02></com02></com01> -->
+        <h2>{{ msg }}</h2>
+        <hr />
+        <!-- 在调用子组件时,我们可以通过绑定一个属性给子组件,在子组件中通过props['属性名']来引入后才可以使用 -->
+        <com01 v-bind:appmsg="msg"></com01>
+        
+    </div>
+    
+</body>
+<script>
+let vm = new new Vue({
+    el : '#app',
+    data : {
+        msg : '这是#app-中的属性!'
+    },
+    methods: {
+
+    },
+    components: {
+        com01 : {
+            // 注意:props中的数据,都是父组件传递给子组件的.父组件传递过来的参数,也必须在props中申明才能使用,建议不要在子组件中修改(给子组件定义方法修改,能成功但报错),所以不建议这么做.
+            props: ['appmsg'],
+            template: '<h2>这是com01组件--{{ appmsg }}</h2>'
+        },
+        com02 : {
+            template: '<h4>这是com02组件</h4>',
+        },
+        
+        
+    },
+    
+})
+
+</script>
+</html>

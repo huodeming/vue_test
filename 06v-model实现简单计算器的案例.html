@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" size="3" v-model="n1" />
+			<select v-model="opt">
+				<option value ="+">+</option>
+				<option value ="-">-</option>
+				<option value ="*">*</option>
+				<option value ="/">/</option>
+			</select>
+			<input type="text" size="3" v-model="n2" />
+			<input type="button" value="计算" v-on:click="calc" />
+			<input type="text" disabled size="3" v-model="n3" />
+			
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:'#app',
+			data: {
+				n1: 0,
+				n2: 0,
+				opt: '+',
+				n3: 0
+			},
+			methods:{
+				calc(){
+					//switch代码有点长,暂时取下巧,正在开发记住尽量别用.eval中可以执行其它代码.不安全
+					var str = this.n1 + this.opt + this.n2;
+					this.n3 = eval(str);
+					
+					/* switch(this.opt){
+						case "+":
+							this.n3 = parseInt(this.n1) + parseInt(this.n2);
+							break;
+						case "-":
+							this.n3 = parseInt(this.n1) - parseInt(this.n2);
+							break;
+						case "*":
+							this.n3 = parseInt(this.n1) * parseInt(this.n2);
+							break;
+						case "/":
+							this.n3 = parseInt(this.n1) / parseInt(this.n2);
+							break;
+					} */
+				}
+			}
+		});
+	</script>
+</html>

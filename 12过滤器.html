@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 过滤器可以写多个.从左到右的顺序 -->
+			<h2>{{ msg | msgFilter(/单纯/g,'邪恶又疯狂') }}</h2>
+		</div>
+	</body>
+	<script type="text/javascript">
+		//定义过滤器,注意第一个参数是数据,第二个参数开始才是过滤器中的参数,注意要定义在使用vue实例之前.
+		//Vue.filter('过滤器名称',function (data){});
+		Vue.filter('msgFilter',function (data,s1,s2){
+			return data.replace(s1, s2);
+		});
+		
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				msg : "我曾经是一个单纯的少年，单纯的问，谁是这个世界上最单纯的人？",
+			},
+			methods:{
+				
+			},
+		})
+
+	</script>
+</html>

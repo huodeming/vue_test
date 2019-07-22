@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<my-com01></my-com01>
+		</div>
+		
+	</body>
+	<script type="text/javascript">
+		//省略掉extend,直接在component中传对象就行.问题是没任何提示.一个组件只能是一个根元素,如<h3></h3><a></a>就会报错
+		Vue.component('myCom01',{
+			template:'<h3>这是使用Vue.component创建的组件</h3>',
+		});
+		
+		
+		var vm = new Vue({
+			el:'#app',
+			data:{},
+			methods:{}
+		});
+	</script>
+</html>

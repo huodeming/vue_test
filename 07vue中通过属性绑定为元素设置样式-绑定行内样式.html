@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{
+				;
+			}
+		</style>
+	</head>
+	<body>
+	</body>
+	<div id="app">
+		<!-- 直接在元素上写样式,以对象的写法 -->
+		<h1 :style="{'color':'red','font-style':'italic'}">{{ msg }}</h1>
+		<!-- 将样式定义到data中,在元素中调用 -->
+		<h2 :style="mystyle">{{ msg }}</h2>
+		<!-- 可以调用data中多个样式对象 -->
+		<h3 :style="[mystyle, style1]">{{ msg }}</h3>
+		
+	</div>
+	
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				msg : '这是一段神奇的文字,但真没什么奇怪的!',
+				mystyle: {'color':'green','font-style':'italic','font-weight':'100'},
+				style1 : {'letter-spacing': '0.5em'}
+			},
+			methods:{
+				
+			}
+		});
+	</script>
+</html>

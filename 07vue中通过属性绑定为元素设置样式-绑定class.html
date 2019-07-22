@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.red{ color: red;}
+			.green{ color: green;}
+			.italic{ font-style: italic;}
+			.weight{font-weight: bold;}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 这是普通的类写法,实现多个样式 -->
+			<p class="red italic">{{ msg }}</p>
+			<!-- 普通的绑定类,注意数组中元素都要加上引号,否则是找变量 -->
+			<h1 v-bind:class="['green','italic']">{{ msg }}</h1>
+			<!-- 用三元表达式,优执体现出来了,但语法有点长,第二行写成对象表达形式, -->
+			<h2 :class="['red', flag ? 'italic' : '']">{{ msg }}</h2>
+			<h3 :class="['red',{'italic':flag}]">{{ msg }}</h3>
+			<!-- 可以全用对象形式表达,更方直观.注意对象中键值都可以不用引号 -->
+			<h4 :class="{'red':true,'italic':false}">{{ msg }}</h4>
+			<h4 :class="{green:true,italic:true}">{{ msg }}</h4>
+			<!-- 把对象写成vm属性,调用列方便 myclass : {red:true,italic:true},-->
+			<h5 :class="myclass">{{ msg }}</h5>
+			
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:'#app',
+			data: {
+				msg : "你好,这是一段文件,没什么奇怪的吧!",
+				flag : true,
+				myclass : {red:true,italic:true},
+			},
+			methods:{
+				
+			}
+		});
+	</script>
+</html>

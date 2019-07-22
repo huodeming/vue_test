@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="comName = 'login'">登陆</button>
+			<button @click="comName = 'reg'">注册</button>
+			<!-- Vue提供了component标签,来展示对应名称的组件,里面提供了一个:is属性,值是组件的名称.可以写成:is="'login'"就好. -->
+
+			<component :is="comName"></component>
+			
+		</div>
+	</body>
+	<script type="text/javascript">
+		Vue.component('login',{
+			template:'<h3>登陆组件</h3>',
+		});
+		Vue.component('reg',{
+			template:'<h3>注册组件</h3>',
+		});
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				comName : 'login',
+			},
+			methods:{
+			},
+		});
+	</script>
+</html>

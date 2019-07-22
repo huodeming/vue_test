@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/vue.js"></script>
+		<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+		<!-- <script src="js/vue-2.4.0.js"></script> -->
+		<style type="text/css">
+			[v-cloak]{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			
+			<p v-cloak>{{ msg }}</p>
+			<p v-text="msg">123456</p>
+			<p>{{ h1 }}</p><!-- 过滤掉了HTML标签 -->
+			<p v-html="h1"></p>
+			<button type="button" v-bind:title="mytitle" v-on:mouseover="myover">按扭</button>
+			<!-- v-bind可以简写成一个: v-on可以简写成@-->
+			<button type="button" :title="mytitle" @click="myclick">按扭</button>
+		</div>
+
+		<script>
+			//alert('aaa');
+			var vm = new Vue({
+				el: '#app',
+				//数据
+				data: {
+					msg : 'helloworld',
+					h1:'<h1>我是H1,我很大</h1>',
+					mytitle:'这是一个按扭'
+				},
+				//事件
+				methods: {
+					myclick : function(){
+						alert('我被点击了!');
+					},
+					myover : function(){
+						alert('我移进来了!')
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

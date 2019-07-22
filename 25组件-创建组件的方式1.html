@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<my-com01></my-com01>
+		</div>
+		
+	</body>
+	<script type="text/javascript">
+		/* var com01 = Vue.extend({
+			template:'<h3>这是使用Vue.extend创建的组件</h3>',
+		});
+		
+		Vue.component('myCom01',com01); */
+		//把两步合并
+		Vue.component('myCom01',Vue.extend({
+			template:'<h3>这是使用Vue.extend创建的组件</h3>',
+		}));
+		
+		
+		var vm = new Vue({
+			el:'#app',
+			data:{},
+			methods:{}
+		});
+	</script>
+</html>

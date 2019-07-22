@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/axios.js" type="text/javascript" charset="utf-8"></script>
+		
+		<!-- 序列化JS对象为URL参数格式 -->
+		<!-- <script src="https://cdn.bootcss.com/qs/6.5.1/qs.min.js"></script> -->
+		<script src="js/qs.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="file" id="file" value="" @change="onchange" />
+			<p>{{ msg }}</p>
+		</div>
+	</body>
+	<script type="text/javascript">
+		axios.defaults.baseURL = 'http://localhost';
+		axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+		Vue.prototype.$axios = axios;//把axios挂载到Vue上
+		Vue.prototype.$qs = Qs;//把Qs挂载到Vue上
+		
+		//console.log(Qs.stringify({a:1}));
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				file: '',
+				msg : '123456',
+			},
+			methods:{
+				onchange : function(event){
+					//console.log(event);
+					this.file = event.target.files[0];
+					
+					var data = new FormData();
+					data.append('city','aa');
+					data.append('name','霍德明');
+					data.append('file',document.getElementById('file').files[0]);
+					console.log(data);
+					this.$axios.post('/php_text/post.php',data).then(res=>{
+						console.log(res);
+						this.msg = res.data.city;
+					})
+					
+				}
+			},
+			created: function(){
+				/* this.$axios.get('/data/sk/101010100.html').then(res=>{
+					console.log(res);
+					this.msg = res.data.weatherinfo.city;
+				}) */
+				/* this.$axios.get('/php_text/get.php?city=邵阳').then(res=>{
+					console.log(res);
+					this.msg = res.data.city;
+				}) */
+				
+				//注意:POST请求默认只接收URL形式的参数,如(aa=10&bb=20),我们借助Qs插件进行转换=========
+				/* var data = {'city':'aa',name:'霍德明'};
+				this.$axios.post('/php_text/post.php',this.$qs.stringify(data)).then(res=>{
+					console.log(res);
+					this.msg = res.data.city;
+				}) */
+				
+				//根据网上说的,加上{headers:{'Content-Type':'application/x-www-form-urlencoded'}}这个参数,可也不行.后台获取到一个{"city":"aa","name":"霍德明"}的键名而已,无效
+				/* var data = {'city':'aa',name:'霍德明'};
+				this.$axios.post('/php_text/post.php',data,{headers:{'Content-Type':'application/x-www-form-urlencoded'}}).then(res=>{
+					console.log(res);
+					this.msg = res.data.city;
+				}) */
+				
+				//最后用formData对象试着看,成功了===================================================
+				/* var data = new FormData();
+				data.append('city','aa');
+				data.append('name','霍德明');
+				//data.append('file',document.getElementById('file').files[0]);
+				console.log(data);
+				this.$axios.post('/php_text/post.php',data).then(res=>{
+					console.log(res);
+					this.msg = res.data.city;
+				}) */
+				
+				
+			}
+		});
+		
+	</script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 以下script标签是对axios进行原生的JS测试==================其中POST未成功======= -->
+	<script type="text/javascript">
+		/* 
+		axios.defaults.baseURL = 'http://www.weather.com.cn';
+ 		//const a = require('axios');
+ 		axios.get('/data/sk/101010100.html').then(res=>{
+			console.log(res);
+			// Object.keys(res).forEach(function(val,i){
+			//	console.log(val,res[val]);
+			//}); 
+		}).catch(error=>{
+			console.log(error);
+		}).finally(function(){
+			//console.log(res);
+			//document.getElementById('app').innerHTML = 'aaa';
+		}); 
+		 */
+		
+		//普通方式POST请求,服务器PHP获取不到参数,暂时无解====================================================
+		/* axios.defaults.baseURL = 'http://localhost';
+		//console.log(axios);
+		//axios.defaults.headers.post['Content-Type'] = 'application/json';//这行没什么用
+		//axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';//这行没什么用
+		//axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';//这行没什么用
+		//console.log(axios.defaults.headers);
+		//axios.post('http://localhost/php_text/post.php',{id:10,user:'huodeming',age:18},{headers:{'Content-Type':'application/x-www-form-urlencoded'}} )
+		//axios.post('http://localhost/php_text/post.php',JSON.stringify({id:10,user:'huodeming',age:18}))
+		//var data = {id:10,user:'huodeming'}
+		axios.post('/php_text/post.php',{id:10,user:'huodeming'},{headers:{'Content-Type':'application/x-www-form-urlencoded'}})
+		.then(
+			res => {
+				console.log(res);
+			}
+		)
+		.catch()
+		.finally();
+		 */
+		
+		
+		/* 
+		//这种方式OK=(采用FormDate对象O)==Content-Type: multipart/form-data
+		var data = new FormData();
+		data.append('code','1234');
+		data.append('name','yyyy');
+		axios.post('/php_text/post.php',data)
+		.then(
+			res => {
+				console.log(res);
+			}
+		)
+		.catch()
+		.finally();
+		 */
+
+	</script>
+</html>

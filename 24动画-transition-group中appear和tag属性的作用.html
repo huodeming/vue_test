@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动画-淡入淡出-位移</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/animate.css"/>
+ 		<style type="text/css">	
+			.v-enter,.v-leave-to{
+				opacity: 0;
+				transform: translateY(100px);
+				/* margin-left: 300px; */
+			}
+			.v-enter-active,.v-leave-active{
+				transition: all 1s ease;
+			}
+			.v-enter-to,.v-leave{
+				opacity: 1;
+			}
+			/* 如果想要移除时后面元素也有向上靠的动画效果.就加上下面两项 */
+			/* .v-move 和 v-leave-action 配合便用 能够实现列表后续元素渐渐漂上来的效果 */
+			.v-move{
+				transition: all 1s ease;
+			}
+			.v-leave-active{
+				position: absolute;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="form-inline">
+				<label>ID:<input class="form-control" type="text" v-model="id" /></label>
+				<label>Name:<input class="form-control" type="text" v-model="name" /></label>
+				<button class="btn btn-success" @click="add">插入</button>
+			</div>
+			<hr />
+			<ul class="list-group">
+				<!-- <transition-group enter-active-class="bounceIn" leave-active-class="bounceOut"> -->
+				<!-- appear实现页面初始化入场效果.但加了span进行了代码包裹.我们可以通过tag属性来指定元素,会自动生成来包裹,但也不好 -->
+				<!-- <transition-group appear tag="ul"> -->
+				<transition-group appear>
+					<li v-for="(item, i) in list" :key="item.id" class="list-group-item" @click="del(i)">{{ item.id }}-{{ item.name }}</li>
+				</transition-group>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vue = new Vue({
+			el:'#app',
+			data:{
+				id : '',
+				name : '',
+				userList:['苏小小','李师师','柳如是','董小宛','陈圆圆','绿珠','赛金花','顾媚','李香君','小凤仙','妲己','妺喜','娥皇','西施','王昭君','貂蝉','杨玉环'],
+				list:[
+					{id:1,name:'苏小小'},
+					{id:2,name:'李师师'},
+				]
+			},
+			methods:{
+				add(){
+					this.list.push({id:this.id, name:this.name});
+					this.name = this.userList[parseInt(this.id)];
+					this.id = parseInt(this.id) + 1;
+				},
+				del(i){
+					this.list.splice(i,1);
+				}
+			},
+			// 全局生命周期钩子函数
+			created: function(){
+				this.id = this.list.length +1;
+				this.name = this.userList[parseInt(this.id)-1];
+			}
+		});
+	</script>
+</html>

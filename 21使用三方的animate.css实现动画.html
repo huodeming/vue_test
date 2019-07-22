@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动画-淡入淡出-位移</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/animate.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="flag = !flag">切换动画</button>
+			<!-- 注意,如果没效果,请加上:animated 这个类名,是基础类,:duration属性是设置时间 -->
+			<!-- <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut" :duration="100">
+				<h3 v-if="flag">这是一个H3标签</h3>
+			</transition> -->
+			
+			<!-- 
+				上面发现animated这个属性用了两次,提取出来放在H3标签上也是可以的.当然新版去掉也OK
+				也可以分别设置入场与出场时间:duration="{enter:200,leave:800}
+			 -->
+			<transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="{enter:200,leave:800}">
+				<h3 v-if="flag" class="animated">这是一个H3标签</h3>
+			</transition>
+
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vue = new Vue({
+			el:'#app',
+			data:{
+				flag : true
+			},
+			methods:{
+				
+			}
+		});
+	</script>
+</html>

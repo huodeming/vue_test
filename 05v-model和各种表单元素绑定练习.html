@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+			<!-- ================================后续把 v-model的所有用法全部找出来练习一次========================================= -->
+			<!-- 单个复选框绑定到布尔值 -->
+			<!-- <input type="checkbox" name="love" id="love" v-model="flag" /><label for="love">{{ flag }}</label> -->
+			
+			<!-- 多个复选框绑定选中值到数组.必须有value值,把选中的value值绑定到一个属性上 -->
+			<!-- <input type="checkbox" name="love1" id="love01" value="read" v-model="checks" /><label for="love01">读书</label>
+			<input type="checkbox" name="love1" id="love02" value="game" v-model="checks" /><label for="love02">游戏</label>
+			<input type="checkbox" name="love1" id="love03" value="sleep" v-model="checks" /><label for="love03">睡觉</label>
+			<input type="checkbox" name="love1" id="love04" value="play" v-model="checks" /><label for="love04">玩</label>
+			<input type="text" name="" id="" :value="checks" /> -->
+			
+			
+			
+			
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					msg : '你好',
+					flag : false,
+					checks : [],
+				}
+			});
+		</script>
+	</body>
+</html>

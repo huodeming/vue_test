@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动画-自定义v-前缀</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.v-enter,.v-leave-to{
+				opacity: 0;
+				transform: translateX(100px);
+				/* margin-left: 300px; */
+			}
+			.v-enter-active,.v-leave-active{
+				transition: all 1s ease;
+			}
+			.v-enter-to,.v-leave{
+				opacity: 1;
+			}
+			/* 前缀的作用,区分不同的动画 */
+			.my-enter,.my-leave-to{
+				opacity: 0;
+				transform: translateY(100px);
+				/* margin-left: 300px; */
+			}
+			.my-enter-active,.my-leave-active{
+				transition: all 1s ease;
+			}
+			.my-enter-to,.my-leave{
+				opacity: 1;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="flag = !flag">切换动画</button>
+			<transition>
+				<h3 v-if="flag">这是一个H3标签</h3>
+			</transition>
+			<!-- 另一个动画 -->
+			<hr />
+			<button @click="flag2 = !flag2">切换动画</button>
+			<transition name="my">
+				<h5 v-if="flag2">这是一个H3标签</h5>
+			</transition>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vue = new Vue({
+			el:'#app',
+			data:{
+				flag : true,
+				flag2: true
+			},
+			methods:{
+				
+			}
+		});
+	</script>
+</html>

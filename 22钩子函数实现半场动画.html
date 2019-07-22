@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动画-淡入淡出-位移</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/animate.css"/>
+		<style type="text/css">
+			*{
+				transform: translate(0,0);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="flag = !flag">快到购物车去</button>
+			<!-- 半场动画,绑定四个动画钩子函数. -->
+			<transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+				<div v-show="flag" style="width: 15px; height: 15px; border-radius: 50%; background-color: red;"></div>
+			</transition>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vue = new Vue({
+			el:'#app',
+			data:{
+				flag : false
+			},
+			methods:{
+				//动画钩子函数的第一个参数:el,表示要执行动画的那个DO元素,是原生JS-DOM对象.
+				beforeEnter : function(el){
+					el.style.transform = "translate(0,0)";//设置起始位置
+				},
+				enter(el,done){
+					el.offsetWidth;//这句没什么用,但不写看不到动画效果.
+					el.style.transform = "translate(150px , 450px)";//设置结束位置
+					el.style.transition = 'all 1s ease';
+					done();//这个其实就是afterEnter()函数的调用.
+				},
+				afterEnter(el){
+					this.flag = false;
+				}
+			}
+		});
+	</script>
+</html>

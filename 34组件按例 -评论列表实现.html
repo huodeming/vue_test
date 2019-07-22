@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>评论列表实现</title>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <template id="myform">
+        <div>
+            <div class="form-group">
+                <label for="user">评论人:</label><input  class="form-control" type="text" id="user" v-model="user" />
+            </div>
+            <div class="form-group">
+                <label for="content">评论内容:</label><textarea class="form-control" id="content" v-model="content"></textarea>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-success" v-on:click="commit">提交评论</button>
+            </div>
+        </div>
+    </template>
+    <div id="app">
+            <com01 v-on:myadd="add"></com01>
+            <ul class="list-group">
+                <li v-for="item in list" :key="item.id" class="list-group-item">
+                    <span class="badge">{{ item.user }}</span>
+                    {{ item.content }}
+                </li>
+            </ul>
+
+    </div>
+</body>
+<script>
+    Vue.component('com01',{
+        template : '#myform',
+        data(){
+            return {
+                user:'',
+                content:'',
+            };
+        },
+        methods:{
+            commit(){
+                //console.log(this.user + this.content);
+                this.$emit('myadd',{id:new Date().toLocaleString(),user: this.user,content:this.content})
+                //console.log({id:new Date(),user: this.user,content:this.content});
+            }
+        }
+    });
+
+
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            list: [
+                {id:1,user:"李白",content:"床前明月光，疑是地上霜。"},
+                {id:2,user:"王维",content:"大漠孤烟直，长河落日圆。"},
+                {id:3,user:"江小白",content:"有理闯天下，有酒我不怕。"},
+            ]
+        },//属性
+        methods:{
+            add(obj){
+                this.list.push(obj);
+            }
+        },//方法
+        filters:{},//过滤器
+        directives:{},//指令
+        components:{},//组件
+        //钩子函数===================
+        beforeCreate(){},
+        created(){},
+        beforeMount(){},
+        mounted(){},
+        beforeUpdate(){},
+        updated(){},
+        beforeDestroy(){},
+        destroyed(){},
+    })
+</script>
+</html>

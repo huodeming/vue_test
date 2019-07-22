@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 
+			注意:如果v-for不使用key时,向后添加数据没问题,但向前添加就会有问题. 
+			1.key的属性值只能使用number或者string,且值尽量唯一
+			2.key的属性必须用v-bind属性的形式指定key的值
+			3.以后使用v-for时尽量加上key属性,以免出问题.
+			-->
+			<!-- <p v-for="item in list"> -->
+			<p v-for="item in list" v-bind:key="item.name">
+				<input type="checkbox" value="" />
+				{{ item.id }} -- {{ item.name }}
+			</p>
+			
+			<hr>
+			ID:<input type="text" v-model="id" />
+			NAME: <input type="text" v-model="name" />
+			<button v-on:click="add">向后追加</button>
+			<button v-on:click="unshift">向前增加</button>
+			
+		</div>
+
+		
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					list :[{'id':1,'name':'黑老大'},{'id':2,'name':'王二'},{'id':3,'name':'张三'},{'id':4,'name':'李四'},],
+					id:'10',
+					name:'',
+				},
+				methods:{
+					add(){
+						this.list.push({'id':this.id,'name':this.name});
+					},
+					unshift(){
+						this.list.unshift({'id':this.id,'name':this.name});
+					}
+				},
+			});
+		</script>
+	</body>
+</html>
