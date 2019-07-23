@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用ref获取DOM元素和组件引用</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h3 ref="myh3">这是一个H3标签</h3>
+        <button v-on:click="show">点击</button>
+        <hr />
+        <com01 ref="mycom"></com01>
+    </div>
+</body>
+<script>
+    Vue.component('com01',{
+        template:'<h5>{{ msg }}</h5>',
+        data:function(){
+            return {
+                msg:'这是组件内容'
+            };
+        },
+        methods:{
+            show(){
+                console.log('这是组件的show方法!');
+            }
+        }
+    });
+
+
+    var vm = new Vue({
+        el:"#app",
+        data:{},//属性
+        methods:{
+            show(){
+                console.log(this.$refs.myh3.innerHTML);//获取元素内容:元素要在#app内部
+                console.log(this.$refs.mycom.msg);//获取组件属性
+                this.$refs.mycom.show();//执行组件方法
+            }
+            
+        },//方法
+        filters:{},//过滤器
+        directives:{},//指令
+        components:{},//组件
+        //钩子函数===================
+        beforeCreate(){},
+        created(){},
+        beforeMount(){},
+        mounted(){},
+        beforeUpdate(){},
+        updated(){},
+        beforeDestroy(){},
+        destroyed(){},
+    })
+</script>
+</html>
