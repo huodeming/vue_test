@@ -1,0 +1,111 @@
+<!-- 
+    //1.在子组件中直接写入localStorang.然后调用父组件的中的方法来刷新新
+    //2.父组件中写个方法来读取localStorang中的据据.然后更新到属性list上.子给件每次写入时父组件更新一次.启动时记得加载一次.
+        //注意: 1.localStorang读取时如果键不存在,则返回null
+                2.localStorang写入时只支持字符串格式.所以要用JSON.stringify()方法进行转换数组或对象.
+                3.localStorang读取出来的数据都是字符串格式,要用JSON.parse()方法进行转换成数组或对象.
+                最后记得清空下两个输入框,不然添加后内容还在.
+ -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>评论列表实现</title>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <template id="myform">
+        <div>
+            <div class="form-group">
+                <label for="user">评论人:</label><input  class="form-control" type="text" id="user" v-model="user" />
+            </div>
+            <div class="form-group">
+                <label for="content">评论内容:</label><textarea class="form-control" id="content" v-model="content"></textarea>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-success" v-on:click="commit">提交评论</button>
+            </div>
+        </div>
+    </template>
+    <div id="app">
+            <com01 v-on:myadd="add"></com01>
+            <ul class="list-group">
+                <li v-for="item in list" :key="item.id" class="list-group-item">
+                    <span class="badge">{{ item.user }}</span>
+                    {{ item.content }}
+                </li>
+            </ul>
+
+    </div>
+</body>
+<script>
+    Vue.component('com01',{
+        template : '#myform',
+        data(){
+            return {
+                user:'',
+                content:'',
+            };
+        },
+        methods:{
+            commit(){
+                //上一节我们通过向父组件传传参数方式，写入了父组件的list属性中
+                //this.$emit('myadd',{id:new Date().toLocaleString(),user: this.user,content:this.content})
+                
+                //下面把数据写入本地存储中...并调用父组件中的方法刷新.==============================
+                var str;
+                if(str = localStorage.getItem('mylist')){
+                    str = JSON.parse(str);
+                    console.log(str);
+                    str.unshift({id:new Date().toLocaleString(),user: this.user,content:this.content});
+                }else{
+                    str = [{id:new Date().toLocaleString(),user: this.user,content:this.content}];
+                }
+                localStorage.setItem('mylist',JSON.stringify(str));
+                this.$emit('myadd');//刷新到页面上
+            }
+        }
+    });
+
+
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            list: [
+                // {id:1,user:"李白",content:"床前明月光，疑是地上霜。"},
+                // {id:2,user:"王维",content:"大漠孤烟直，长河落日圆。"},
+                // {id:3,user:"江小白",content:"有理闯天下，有酒我不怕。"},
+            ]
+        },//属性
+        methods:{
+            // add(obj){
+            //     this.list.push(obj);
+            // }
+            add(){
+                /* var str;
+                if(str = localStorage.getItem('mylist')){
+                    this.list = JSON.parse(str);
+                } */
+                //上面代码可以写成一句
+                this.list = JSON.parse(localStorage.getItem('mylist') || '[]');
+            }       
+
+        },//方法
+        filters:{},//过滤器
+        directives:{},//指令
+        components:{},//组件
+        //钩子函数===================
+        beforeCreate(){},
+        created(){this.add()},
+        beforeMount(){},
+        mounted(){},
+        beforeUpdate(){},
+        updated(){},
+        beforeDestroy(){},
+        destroyed(){},
+    })
+</script>
+</html>
