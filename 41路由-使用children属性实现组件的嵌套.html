@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>路由嵌套</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+</head>
+<body>
+    <template id="account">
+        <div>
+            <h1>这是Account路由组件</h1>
+            <!-- 在组件中写子组件的router-link与router-view,注意: router-link to的值是二级:account/login -->
+            <router-link to="/account/login">登陆</router-link>
+            <router-link to="/account/reg">注册</router-link>
+            <router-view></router-view>
+        </div>
+    </template>
+<!-- =============================================== -->
+    <div id="app">
+        <router-link to="/account">account</router-link>
+        <router-view></router-view>
+    </div>
+</body>
+<script>
+    var account = {template:'#account'};
+    var login = {template:'<h3>登陆组件</h3>'};
+    var reg = {template:'<h3>注册组件</h3>'};
+    var routerObj = new VueRouter({
+        routes: [
+            //{path: '/',redirect: '/account'},
+            {
+                path: '/account',
+                component: account,
+                //增加一个属性:children,注意里面的path属性.不要带/,否则永远以根路径开始请求
+                children:[
+                    {path:'login',component:login},
+                    {path:'reg',component:reg}
+                ]
+            },
+        ]
+    });
+
+
+    var vm = new Vue({
+        el:"#app",
+        router:routerObj,
+        data:{},//属性
+        methods:{},//方法
+    })
+</script>
+</html>

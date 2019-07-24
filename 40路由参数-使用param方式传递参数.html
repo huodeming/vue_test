@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用query方式传递参数</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 使用URL参数给路由传递参数,可以传递多个参数 -->
+        <router-link to="/login/100">登陆</router-link>
+        <router-link to="/reg">注册</router-link>
+        <router-view></router-view>
+    </div>
+</body>
+<script>
+        var login = {
+            //也可以把参数写在组件中.
+            template:'<h3>登陆-路由组件,参数值:{{ $route.params.id }}</h3>',
+            //试着输出传递过来的参数.在: this.$route.params 中....
+            created(){
+                console.log(this.$route);
+            }
+        };
+        var reg = {template:'<h3>注册-路由组件</h3>'};
+        var routerObj = new VueRouter({
+            routes:[
+                {path:'/', redirect:'/login'},
+                {path:'/login/:id', component:login},//param方式在这设定,可以是多个,如/:id/:name,
+                {path:'/reg', component:reg},
+            ],
+        });
+    var vm = new Vue({
+        el:"#app",
+        router:routerObj,
+        data:{},//属性
+        methods:{},//方法
+        filters:{},//过滤器
+        directives:{},//指令
+        components:{},//组件
+    })
+</script>
+</html>

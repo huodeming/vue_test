@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue-html-page</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <style>
+    .header{
+        background-color: orange;
+        height: 200px;
+    }
+    .main{
+        display: flex;
+        height: 400px
+    }
+    .main>.left{
+        flex: 2;
+        background-color: aquamarine;
+    }
+    .main>.body{
+        flex: 8;
+        background-color: aqua;
+    }
+
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-view></router-view>
+        <div class="main">
+            <router-view name="left"></router-view>
+            <router-view name="body"></router-view>
+        </div>
+
+    </div>
+</body>
+<script>
+    var header = {template: '<div class="header"><h3>这是头部组件</h3></div>'};
+    var left = {template: '<div class="left"><h3>这是左边组件</h3></div>'};
+    var body = {template: '<div class="body"><h3>这是主体区域组件</h3></div>'};
+
+    var router = new VueRouter({
+        routes:[
+            // {path : '/',component: header},
+            // {path : '/left',component: left},
+            // {path : '/body',component: body},
+
+            {'path' : '/','components': {
+                'default':header,
+                'left':left,
+                'body':body,
+            }}
+        ]
+    });
+
+    var vm = new Vue({
+        el:"#app",
+        router: router,
+        data:{},//属性
+        methods:{},//方法
+        filters:{},//过滤器
+        directives:{},//指令
+        components:{},//组件
+        //钩子函数===================
+        beforeCreate(){},
+        created(){},
+        beforeMount(){},
+        mounted(){},
+        beforeUpdate(){},
+        updated(){},
+        beforeDestroy(){},
+        destroyed(){},
+    })
+</script>
+</html>
