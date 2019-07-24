@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue-html-page</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <style>
+    .router-link-active{
+        background-color: #ccc;
+        font-weight: 700;
+    }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 
+            router-link:默认转换成a标签,如果不想用a标签,请加tag='span'之类的属性 
+            给选中的标签来个高亮显示:默认类名:router-link-active,也可以在注册路时定义: linkActiveClass 这个对象属性来指定.
+        -->
+        <router-link tag="span" to="/login">登陆</router-link>
+        <router-link to="/reg">注册</router-link>
+        <router-view></router-view>
+    </div>
+</body>
+<script>
+    var login = { template: '<h3>登陆路由组件</h3>'};
+    var reg = { template: '<h3>注册路由组件</h3>'};
+    var routerObj = new VueRouter({
+        linkActiveClass:'myactive',//给选中的标签来个高亮显示:默认类名:router-link-active,也可以在注册路时定义: linkActiveClass 这个对象属性来指定
+        routes:[
+            //指定默认值:重定向,不要建议用{path:'/',component: login},
+            {path: '/', redirect: '/login'},
+            {path:'/login',component: login},
+            {path:'/reg',component: reg},
+        ],
+    });
+
+    var vm = new Vue({
+        el:"#app",
+        router: routerObj,
+    })
+</script>
+</html>
