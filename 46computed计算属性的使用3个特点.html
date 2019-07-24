@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>watch监视路由地址的改变</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" id="" v-model="first">
+        <input type="text" id="" v-model="last">
+        <input type="text" id="" v-model="full">
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            first:'',
+            last:'',
+            //full:'',//1.把full从data中删掉,加入到computed中去
+        },//属性
+        //在computed中,可以定义一些属性,这些属性叫做[计算属性],计算属性的本质,就是一个方法,只不过,我们使用这些计算属性的时候,是把它们的名称,直接当做属性来使用.并不会把计算属性当方法来使用.
+        computed: {
+            //注意: 1. 计算属性在引用的时候,一定不要加()去调用.当作普通属性去使用就好
+            //      2. 只要任何data中的数据发生变化,就会立即重新计算值.
+            //      3. 计算属性的求值结果,会被缓存起来,方便下次直接使用,如果计算属性方法中数据未发生任何变化,则不会重新计算.--高效率.
+            full : function(){
+                //console.log('执行了!');//可以在页面中多加几个{{ full }}进行测试.如果值未改变,只执行到一次.
+                return this.first + '' + this.last;
+            }
+        },
+    })
+</script>
+</html>

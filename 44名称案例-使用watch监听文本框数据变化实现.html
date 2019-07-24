@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>实现文本框数据的改变</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" id="" v-model="first" />
+        <input type="text" id="" v-model="last" />
+        <input type="text" id="" v-model="full" />
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            'first':'',
+            'last':'',
+            'full':'',
+        },//属性
+        methods:{},//方法
+        //使用watch这个属性,可以监视 data 中指定数据的变化,然后触发这个watch中对应的函数.
+        watch:{
+            //这个函数有两个参数,新值,旧值
+            'first':function(newValue,oldValue){
+                this.full = this.first + '' + this.last;//this.full = newValue + '' + this.last;
+            },
+            'last'(newValue,oldValue){
+                this.full = this.first + '' + this.last;//this.full = this.first + '' + newValue;
+            }
+
+        }
+    })
+</script>
+</html>
